@@ -18,13 +18,14 @@ def main():
         LeafNode(None, "Normal text"),
     ],
 )
-    err = ParentNode(None, None)
-    noerr = ParentNode("p", [LeafNode("p", "Chazz it up!", {"The": "Chazz", "Oat": "Meal"})])
+    #err = ParentNode(None, None)
+    #noerr = ParentNode("p", [LeafNode("p", "Chazz it up!", {"The": "Chazz", "Oat": "Meal"})])
     #print(one.props_to_html())
     #print(two.props_to_html())
     #print(three.to_html())
     #print(four.to_html())
-    print (err.to_html())
-    print(noerr.to_html())
+    #print (err.to_html())
+    #print(noerr.to_html())
+      
     return
 main()

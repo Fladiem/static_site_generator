@@ -1,12 +1,13 @@
 from enum import Enum
+from htmlnode import LeafNode
 
 class TextType(Enum):      #This seems... not right?
-    NORMAL_TEXT = "Normal text"
-    BOLD_TEXT = "**Bold text**"
-    ITALIC_TEXT = "_Italic text_"
-    CODE_TEXT = "`Code text`"
-    LINKS = "[anchor text](url)"
-    IMAGES = "![alt text](url)"
+    TEXT = "Normal text"
+    BOLD = "**Bold text**"
+    ITALIC = "_Italic text_"
+    CODE = "`Code text`"
+    LINK = "[anchor text](url)"
+    IMAGE = "![alt text](url)"
     
 
 class TextNode:
@@ -24,5 +25,21 @@ class TextNode:
     def __repr__(textnode):
         return f'TextNode({textnode.text}, {textnode.text_type.value}, {textnode.url})'
 
-        
+def text_node_to_html_node(text_node):
+    match(text_node.text_type):
+        case(TextType.TEXT):
+            return LeafNode(None, text_node.text)
+        case(TextType.BOLD):
+            return LeafNode("b", text_node.text)
+        case(TextType.ITALIC):
+            return LeafNode("i", text_node.text)
+        case(TextType.CODE):
+            return LeafNode("code", text_node.text)
+        case(TextType.LINK):
+            return LeafNode("a", text_node.text, {"href": text_node.url})
+        case(TextType.IMAGE):
+            return LeafNode("img", '', {"src": text_node.url, "alt": text_node.text})
+            
+normal_case = TextNode("text here", TextType.IMAGE, "https://gameinformer.com")
+#print(text_node_to_html_node(normal_case))        
         

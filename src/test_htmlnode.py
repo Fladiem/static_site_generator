@@ -1,5 +1,7 @@
 import unittest
 
+from textnode import *
+
 from htmlnode import HTMLNode
 from htmlnode import LeafNode
 from htmlnode import ParentNode
