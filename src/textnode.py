@@ -1,11 +1,11 @@
 from enum import Enum
 from htmlnode import LeafNode
 
-class TextType(Enum):      #This seems... not right?
-    TEXT = "Normal text"
-    BOLD = "**Bold text**"
-    ITALIC = "_Italic text_"
-    CODE = "`Code text`"
+class TextType(Enum):      #This seems... not right?  Wrong, it's not wrong because it isn't wrong.
+    TEXT = "TextType.TEXT"  
+    BOLD = "TextType.BOLD"  #**
+    ITALIC = "TextType.ITALIC"  #_
+    CODE = "`TextType.CODE`" # `
     LINK = "[anchor text](url)"
     IMAGE = "![alt text](url)"
     

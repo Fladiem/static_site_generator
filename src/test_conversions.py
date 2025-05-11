@@ -17,9 +17,9 @@ class Test_text_node_to_html(unittest.TestCase):
         html_node = text_node_to_html_node(node)
         self.assertEqual(html_node, HTMLNode("i", "italic"))
     def test_code(self):
-        node = TextNode("code", TextType.CODE)
+        node = TextNode("this is code", TextType.CODE)
         html_node = text_node_to_html_node(node)
-        self.assertEqual(html_node, HTMLNode("code", "code"))
+        self.assertEqual(html_node, HTMLNode("code", "this is code"))
     def test_link(self):
         node = TextNode("link", TextType.LINK, "alex.yiik")
         html_node = text_node_to_html_node(node)
