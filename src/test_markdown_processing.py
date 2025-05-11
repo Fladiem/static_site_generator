@@ -8,7 +8,8 @@ class test_MD_processing(unittest.TestCase):
               TextNode("This text will be bold", TextType.BOLD),
               TextNode("This is text with a _italic_ word", TextType.TEXT)]
         self.assertEqual(split_nodes_delimiter(nold, "_", TextType.ITALIC), 
-                         [TextNode("This text will be bold", TextType.BOLD),
+                         [TextNode("This is text with a `code block` word", TextType.TEXT),
+                          TextNode("This text will be bold", TextType.BOLD),
                           TextNode("This is text with a ", TextType.TEXT),
                           TextNode("italic", TextType.ITALIC),
                           TextNode(" word", TextType.TEXT)])
@@ -21,11 +22,12 @@ class test_MD_processing(unittest.TestCase):
     def test_bold_italics_code(self):
         nold = [TextNode("Equals _italic_", TextType.TEXT),
                 TextNode("Equals `code`", TextType.TEXT),
-                TextNode("Eqauls **bold**", TextType.TEXT)]
+                TextNode("Equals **bold**", TextType.TEXT)]
         self.assertEqual(split_nodes_delimiter(nold, "`", TextType.CODE),
-                          [TextNode("Equals ", TextType.TEXT),
+                          [TextNode("Equals _italic_", TextType.TEXT),
+                           TextNode("Equals ", TextType.TEXT),
                            TextNode("code", TextType.CODE),
-                           TextNode("", TextType.TEXT)])
+                           TextNode("Equals **bold**", TextType.TEXT)])
 
         
 if __name__ == "__main__":
