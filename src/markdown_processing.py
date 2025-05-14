@@ -63,7 +63,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type): #converts old_nodes 
             del nodes_out[count-1]
            
 
-    print(nodes_out)
+    #print(nodes_out)
     return nodes_out
 
 split_nodes_delimiter(test_nodes, "`", TextType.CODE)
