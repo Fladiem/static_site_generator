@@ -1,5 +1,5 @@
 from extract_markdown import *
-import re
+#import re
 import unittest
 
 class TestExtract(unittest.TestCase):

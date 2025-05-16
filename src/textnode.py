@@ -6,8 +6,8 @@ class TextType(Enum):      #This seems... not right?  Wrong, it's not wrong beca
     BOLD = "TextType.BOLD"  #**
     ITALIC = "TextType.ITALIC"  #_
     CODE = "`TextType.CODE`" # `
-    LINK = "[anchor text](url)"
-    IMAGE = "![alt text](url)"
+    LINK = "TextType.LINK"     #"[anchor text](url)"
+    IMAGE = "TextType.IMAGE"   #"![alt text](url)"
     
 
 class TextNode:

@@ -28,6 +28,73 @@ class test_MD_processing(unittest.TestCase):
                            TextNode("Equals ", TextType.TEXT),
                            TextNode("code", TextType.CODE),
                            TextNode("Equals **bold**", TextType.TEXT)])
+        
+
+    def test_split_images(self):
+        node = TextNode(
+            "This is text with an ![image](https://i.imgur.com/zjjcJKZ.png) and another ![second image](https://i.imgur.com/3elNhQu.png)",
+            TextType.TEXT,
+        )
+        new_nodes = split_nodes_image([node])
+        self.assertListEqual(
+            [
+                TextNode("This is text with an ", TextType.TEXT),
+                TextNode("image", TextType.IMAGE, "https://i.imgur.com/zjjcJKZ.png"),
+                TextNode(" and another ", TextType.TEXT),
+                TextNode(
+                    "second image", TextType.IMAGE, "https://i.imgur.com/3elNhQu.png"
+                ),
+            ],
+            new_nodes,
+        )
+    def test_split_link(self):
+        nodes = TextNode(
+        "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)",
+        TextType.TEXT,
+    )
+        new_nodes = [
+        TextNode("This is text with a link ", TextType.TEXT),
+        TextNode("to boot dev", TextType.LINK, "https://www.boot.dev"),
+        TextNode(" and ", TextType.TEXT),
+        TextNode(
+            "to youtube", TextType.LINK, "https://www.youtube.com/@bootdotdev"
+        ),
+    ]
+        self.assertEqual(split_nodes_link(nodes), new_nodes)
+    def test_split_link_extras(self):
+        nodes = [TextNode("This is **bold** text", TextType.BOLD),
+                 TextNode("This is text with a link to [Gameinformer](https://www.gameinformer.com/) and to [python.org](https://docs.python.org/3/library/stdtypes.html#str.split) and also nothing", TextType.TEXT),
+                 TextNode("This is text with an image ![fake image](www.loweffort.com/&*44LAZY.nope)", TextType.IMAGE)]
+        new_nodes = [TextNode("This is **bold** text", TextType.BOLD),
+                     TextNode("This is text with a link to ", TextType.TEXT),
+                     TextNode("Gameinformer", TextType.LINK, "https://www.gameinformer.com/"),
+                     TextNode(" and to ", TextType.TEXT),
+                     TextNode("python.org", TextType.LINK, "https://docs.python.org/3/library/stdtypes.html#str.split"),
+                     TextNode(" and also nothing", TextType.TEXT),
+                     TextNode("This is text with an image ![fake image](www.loweffort.com/&*44LAZY.nope)", TextType.IMAGE)]
+        self.assertEqual(split_nodes_link(nodes), new_nodes)
+
+    def test_split_image_extras(self):
+        nodes = [TextNode("This is **bold** text", TextType.BOLD),
+                 TextNode("This is text with a link to [Gameinformer](https://www.gameinformer.com/) and to [python.org](https://docs.python.org/3/library/stdtypes.html#str.split) and also nothing", TextType.TEXT),
+                 TextNode("This is text with an image ![fake image](www.loweffort.com/&*44LAZY.nope) and also nothing.", TextType.TEXT)]
+        new_nodes = [TextNode("This is **bold** text", TextType.BOLD),
+                     TextNode("This is text with a link to [Gameinformer](https://www.gameinformer.com/) and to [python.org](https://docs.python.org/3/library/stdtypes.html#str.split) and also nothing", TextType.TEXT),
+                     TextNode("This is text with an image ", TextType.TEXT),
+                     TextNode("fake image", TextType.IMAGE, "www.loweffort.com/&*44LAZY.nope"),
+                     TextNode(" and also nothing.", TextType.TEXT)]
+        self.assertEqual(split_nodes_image(nodes), new_nodes)
+    def test_split_images_basic(self):
+        node = TextNode("This is a chicken wing", TextType.TEXT)
+        new_nodes = [TextNode("This is a chicken wing", TextType.TEXT)]
+        self.assertEqual(split_nodes_image(node), new_nodes)
+    
+    def test_split_link_basic(self):
+        node = TextNode("This is a thimble of https://www.gobbagooblin.com/butter", TextType.TEXT)
+        new_nodes = [TextNode("This is a thimble of https://www.gobbagooblin.com/butter", TextType.TEXT)]
+        self.assertEqual(split_nodes_link(node), new_nodes)
+        
+
 
         
 if __name__ == "__main__":

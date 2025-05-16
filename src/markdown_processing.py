@@ -1,11 +1,17 @@
 from htmlnode import *
 from textnode import *
+from extract_markdown import extract_markdown_images, extract_markdown_links
 
-test_nodes = [TextNode("This is text with a `code block` word", TextType.TEXT),
-              TextNode("This is text without a bold word", TextType.TEXT),
-              TextNode("This is text with a **BOUWLD** word", TextType.TEXT)]
-more_nodes = [TextNode("This is `one` and `two` and then `three`", TextType.TEXT)]
-#temporary test_nodes list content holder: 
+
+linknode = [TextNode(
+    "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev) and to nothing",
+    TextType.TEXT), TextNode("This is the second text with a link [to google](www.google.com)", TextType.TEXT), 
+    TextNode("This is plain text with no link", TextType.TEXT),
+    TextNode("This is text with an image ![fake image](www.loweffort.com/&*44LAZY.nope)", TextType.IMAGE)]
+imagenode = [TextNode("This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)",
+                     TextType.TEXT), TextNode("This is the second text with a ![grinch](https://giphy.com/gifs/thegoodfilms-vintage-cartoon-smiling-UTFiHeDL8cOSA)", TextType.TEXT),
+                       TextNode("This is just text", TextType.TEXT)]
+
 
 def split_nodes_delimiter(old_nodes, delimiter, text_type): #converts old_nodes into, potentially, a list of multiple new TextType nodes.
     #handles inline code, bold and italic text
@@ -31,7 +37,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type): #converts old_nodes 
             new_nodes.append(node)
 
     
-    #for node in old_nodes: #create list of new TextNodes   #redundant
+    #for node in old_nodes: #create list of new TextNodes   #redundant. removed.
         
         if delimiter in node.text and node.text_type == TextType.TEXT:
             tlist = node.text.split(delimiter)
@@ -66,5 +72,96 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type): #converts old_nodes 
     #print(nodes_out)
     return nodes_out
 
-split_nodes_delimiter(test_nodes, "`", TextType.CODE)
+def split_nodes_image(old_nodes):
+    #defaultTT = TextType.IMAGE
+    new_nodes = []
+    out_nodes = []
+
+    if isinstance(old_nodes,list) == False:   #allows function to work when old_nodes is one TextNode rather than a list
+        old_nodes = [old_nodes]
+
+    for node in old_nodes: 
+        original_text = node.text
+        if node.text_type != TextType.TEXT:  #add node to list as is
+            new_nodes.append(node)
+            
+            
+
+        else:    #if node.text_type == TextType.TEXT
+               
+               extracted_images = extract_markdown_images(node.text)
+               if extracted_images == [] and node not in new_nodes: #If extraction returns nothing, add node to list as is
+                   new_nodes.append(node)
+               
+               for alt, ilink in extracted_images:
+    
+                   section = node.text.split(f"![{alt}]({ilink})", 1)
+                   #print(sections)
+
+                   if section[0]:
+                       new_nodes.append(TextNode(section[0], TextType.TEXT))
+                   node.text = section[1]
+ 
+                   new_nodes.append(TextNode(alt, TextType.IMAGE, ilink))
+                   if alt == extracted_images[-1][0]:
+                
+                     last_sections = original_text.split(f"[{alt}]({ilink})")
+                     new_nodes.append(TextNode(last_sections[1], TextType.TEXT))
+                   
+                
+               
+    out_nodes.extend(new_nodes)
+         
+    count = 0               #removes TextNodes with empty contents
+    for node in out_nodes:
+        count += 1
+        if node.text == '':
+            del out_nodes[count-1]                
+    
+    #print(new_nodes)
+    #print(out_nodes)
+    return out_nodes
+                   
+def split_nodes_link(old_nodes):
+    new_nodes = []
+    section = []
+    
+    if isinstance(old_nodes, list) == False:  #Allows function to work when old_nodes is not a list
+        old_nodes = [old_nodes]
+    for node in old_nodes:
+        original_text = node.text
+        if node.text_type != TextType.TEXT:
+            new_nodes.append(node)
+        
+        extracted_links = extract_markdown_links(node.text)
+        if extracted_links == [] and node not in new_nodes: #adds node to new_nodes unmodified if no matches are returned
+            new_nodes.append(node)
+        for anchor, link in extracted_links:
+            #print(extracted_links[-1][0])
+            #print (anchor, link)
+            section = node.text.split(f"[{anchor}]({link})")
+            #print(section)
+            if section[0]:
+                new_nodes.append(TextNode(section[0], TextType.TEXT))
+            node.text = section[1]
+            new_nodes.append(TextNode(anchor, TextType.LINK, link))
+            if anchor == extracted_links[-1][0]:
+                #print(original_text)
+                last_sections = original_text.split(f"[{anchor}]({link})")
+                new_nodes.append(TextNode(last_sections[1], TextType.TEXT))
+
+               
+    #print(new_nodes)
+    
+    count = 0
+    for node in new_nodes:
+        count += 1
+        if node.text == '':
+            del new_nodes[count-1]
+    
+    return new_nodes
+    
+            
+
+split_nodes_link(linknode)
 
