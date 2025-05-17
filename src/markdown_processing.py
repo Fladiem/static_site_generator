@@ -1,5 +1,6 @@
 from htmlnode import *
 from textnode import *
+import re
 from extract_markdown import extract_markdown_images, extract_markdown_links
 
 
@@ -11,6 +12,7 @@ linknode = [TextNode(
 imagenode = [TextNode("This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)",
                      TextType.TEXT), TextNode("This is the second text with a ![grinch](https://giphy.com/gifs/thegoodfilms-vintage-cartoon-smiling-UTFiHeDL8cOSA)", TextType.TEXT),
                        TextNode("This is just text", TextType.TEXT)]
+multitext = "This is _text_ with a **bold** word and a `code block` and a [link](https://boot.dev) and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg)"
 
 
 def split_nodes_delimiter(old_nodes, delimiter, text_type): #converts old_nodes into, potentially, a list of multiple new TextType nodes.
@@ -19,6 +21,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type): #converts old_nodes 
     # _ = italic
     # ` = code
     valid_delimiters = ["**", "_", "`"]
+    
     new_nodes = [] #holds values to be added to added to nodes_out
     nodes_out = [] #final output of new nodes
 
@@ -35,9 +38,6 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type): #converts old_nodes 
 
         if delimiter not in node.text and node.text_type == TextType.TEXT:
             new_nodes.append(node)
-
-    
-    #for node in old_nodes: #create list of new TextNodes   #redundant. removed.
         
         if delimiter in node.text and node.text_type == TextType.TEXT:
             tlist = node.text.split(delimiter)
@@ -56,10 +56,6 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type): #converts old_nodes 
 
                 #print(tlist[i], i)
                 
-    
-    
-    
-    
     nodes_out.extend(new_nodes)
          
     count = 0               #removes TextNodes with empty contents
@@ -68,7 +64,6 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type): #converts old_nodes 
         if node.text == '':
             del nodes_out[count-1]
            
-
     #print(nodes_out)
     return nodes_out
 
@@ -161,7 +156,28 @@ def split_nodes_link(old_nodes):
     
     return new_nodes
     
-            
+def text_to_textnodes(text): #This function uses the previous functions to convert markdown text to a list of nodes.
+    if isinstance(text, str):
+        old_nodes = [TextNode(text, TextType.TEXT)]
+        
+    if isinstance(text, TextNode):
+        old_nodes = [text]
+    
+    if isinstance(text, list):
+        old_nodes = text
+        #print(old_nodes)
+    for node in old_nodes:
+        nodes = split_nodes_link(node)
+        nodes = split_nodes_image(nodes)
+        nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
+        nodes = split_nodes_delimiter(nodes, "_", TextType.ITALIC)
+        nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
+    
+    print(nodes)
+    return nodes
 
-split_nodes_link(linknode)
 
+
+
+#split_nodes_link(linknode)
+text_to_textnodes(multitext)

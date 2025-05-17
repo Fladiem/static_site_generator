@@ -93,7 +93,39 @@ class test_MD_processing(unittest.TestCase):
         node = TextNode("This is a thimble of https://www.gobbagooblin.com/butter", TextType.TEXT)
         new_nodes = [TextNode("This is a thimble of https://www.gobbagooblin.com/butter", TextType.TEXT)]
         self.assertEqual(split_nodes_link(node), new_nodes)
-        
+    
+    def test_text_to_textnodes(self):
+        node = "This is **text** with an _italic_ word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"
+        new_nodes =[
+    TextNode("This is ", TextType.TEXT),
+    TextNode("text", TextType.BOLD),
+    TextNode(" with an ", TextType.TEXT),
+    TextNode("italic", TextType.ITALIC),
+    TextNode(" word and a ", TextType.TEXT),
+    TextNode("code block", TextType.CODE),
+    TextNode(" and an ", TextType.TEXT),
+    TextNode("obi wan image", TextType.IMAGE, "https://i.imgur.com/fJRm4Vk.jpeg"),
+    TextNode(" and a ", TextType.TEXT),
+    TextNode("link", TextType.LINK, "https://boot.dev"),
+]
+        self.assertEqual(text_to_textnodes(node), new_nodes)
+    def test_text_to_textnodes_oppositeorder(self):
+        #![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) [link](https://boot.dev)
+        node = "This is text with a ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev). There's also a `code block`, _italic word_ and a **bold word**."
+        new_nodes =[
+    TextNode("This is text with a ", TextType.TEXT),
+    TextNode("obi wan image", TextType.IMAGE, "https://i.imgur.com/fJRm4Vk.jpeg"),
+    TextNode(" and a ", TextType.TEXT),
+    TextNode("link", TextType.LINK, "https://boot.dev"),
+    TextNode(". There's also a ", TextType.TEXT),
+    TextNode("code block", TextType.CODE),
+    TextNode(", ", TextType.TEXT),
+    TextNode("italic word", TextType.ITALIC),
+    TextNode(" and a ", TextType.TEXT),
+    TextNode("bold word", TextType.BOLD),
+    TextNode(".", TextType.TEXT)
+]
+        self.assertEqual(text_to_textnodes(node), new_nodes)
 
 
         

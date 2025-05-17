@@ -64,3 +64,17 @@ else:    #if node.text_type == TextType.TEXT
                     """
 #attempted code for split_nodes_image in markdown processing, if this implementation were to
 #work, it would require several convoluted steps and likely not cover all cases
+
+"""nodes = split_nodes_link(nodes)
+    nodes = split_nodes_image(nodes)
+    for node in nodes:
+        bold_match = re.findall(r"\*(.*?)\*", node.text)
+        italic_match = re.findall(r"\_(.*?)\_", node.text)
+        code_match = re.findall(r"\`(.*?)\`", node.text)
+        if bold_match != []:
+            nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
+        if italic_match != []:
+            nodes = split_nodes_delimiter(nodes, "_", TextType.ITALIC)
+        if code_match != []:
+            nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
+    """
