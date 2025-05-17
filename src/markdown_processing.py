@@ -13,6 +13,7 @@ imagenode = [TextNode("This is text with a ![rick roll](https://i.imgur.com/aKaO
                      TextType.TEXT), TextNode("This is the second text with a ![grinch](https://giphy.com/gifs/thegoodfilms-vintage-cartoon-smiling-UTFiHeDL8cOSA)", TextType.TEXT),
                        TextNode("This is just text", TextType.TEXT)]
 multitext = "This is _text_ with a **bold** word and a `code block` and a [link](https://boot.dev) and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg)"
+nonetext = "This is plain text with no **special** properties. I lied it has a bold word"
 
 
 def split_nodes_delimiter(old_nodes, delimiter, text_type): #converts old_nodes into, potentially, a list of multiple new TextType nodes.
@@ -157,6 +158,7 @@ def split_nodes_link(old_nodes):
     return new_nodes
     
 def text_to_textnodes(text): #This function uses the previous functions to convert markdown text to a list of nodes.
+    out = []
     if isinstance(text, str):
         old_nodes = [TextNode(text, TextType.TEXT)]
         
@@ -172,12 +174,12 @@ def text_to_textnodes(text): #This function uses the previous functions to conve
         nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
         nodes = split_nodes_delimiter(nodes, "_", TextType.ITALIC)
         nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
-    
-    print(nodes)
-    return nodes
+        out.extend(nodes)
+    print(out)
+    return out
 
 
 
 
 #split_nodes_link(linknode)
-text_to_textnodes(multitext)
+text_to_textnodes(nonetext)
