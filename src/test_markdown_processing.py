@@ -127,6 +127,83 @@ class test_MD_processing(unittest.TestCase):
 ]
         self.assertEqual(text_to_textnodes(node), new_nodes)
 
+    def test_markdown_to_blocks(self):
+        md = """
+This is **bolded** paragraph
+
+This is another paragraph with _italic_ text and `code` here
+This is the same paragraph on a new line
+
+- This is a list
+- with items
+"""
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(
+            blocks,
+            [
+                "This is **bolded** paragraph",
+                "This is another paragraph with _italic_ text and `code` here\nThis is the same paragraph on a new line",
+                "- This is a list\n- with items",
+            ],
+        ) 
+    
+    def test_markdown_to_blocks_extra_newlines(self):
+        md = '''
+# This is a heading.
+
+The heading is terrified of all the newlines.
+
+
+
+
+Newlines everywhere
+
+
+
+
+in the walls
+
+
+
+there is no escape from the newlines
+NO ESCAPE
+
+
+
+
+'''
+        blocks = markdown_to_blocks(md)
+        test_blocks = [
+            "# This is a heading.", 
+            "The heading is terrified of all the newlines.",
+            "Newlines everywhere",
+            "in the walls",
+            "there is no escape from the newlines\nNO ESCAPE"
+        ]
+        self.assertEqual(blocks, test_blocks)
+    def test_markdown_blocks_jank(self):
+        md = """ &&*&^This is a chicken wingThisisachickenwing
+golfingpotato
+fig newnuton
+
+nest
+needle
+
+normandy
+
+
+
+
+bort """
+        blocks = markdown_to_blocks(md)
+        test_blocks = ["&&*&^This is a chicken wingThisisachickenwing\ngolfingpotato\nfig newnuton",
+                       "nest\nneedle",
+                       "normandy",
+                       "bort"]
+        self.assertEqual(blocks, test_blocks)
+
+    
+
 
         
 if __name__ == "__main__":

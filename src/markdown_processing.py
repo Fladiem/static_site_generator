@@ -14,7 +14,37 @@ imagenode = [TextNode("This is text with a ![rick roll](https://i.imgur.com/aKaO
                        TextNode("This is just text", TextType.TEXT)]
 multitext = "This is _text_ with a **bold** word and a `code block` and a [link](https://boot.dev) and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg)"
 nonetext = "This is plain text with no **special** properties. I lied it has a bold word"
+MD_sample = """
+# This is a heading
 
+This is a paragraph of text. It has some **bold** and _italic_ words inside of it.
+This is the same paragraph on a new line.
+
+
+
+
+
+- This is the first list item in a list block
+- This is a list item
+- This is another list item
+"""
+
+md = """ &&*&^This is a chicken wingThisisachickenwing
+golfingpotato
+fig newnuton
+
+nest
+needle
+
+normandy
+
+
+
+
+bort """
+
+#regardless of the scope MD text is in it should have no spaces or tabs before each line
+#as above in MD_sample
 
 def split_nodes_delimiter(old_nodes, delimiter, text_type): #converts old_nodes into, potentially, a list of multiple new TextType nodes.
     #handles inline code, bold and italic text
@@ -178,8 +208,20 @@ def text_to_textnodes(text): #This function uses the previous functions to conve
     print(out)
     return out
 
-
-
+def markdown_to_blocks(text):
+    blocks_index = 0
+    stripped_blocks = []
+    blocks = text.split("\n\n")
+    #print(blocks, len(blocks))
+    for block in blocks:
+        blocks_index += 1
+        if blocks[blocks_index-1] != '' and blocks[blocks_index-1] != '\n':
+            
+            #print("segment:", blocks[blocks_index-1])
+            stripped_blocks.append(block.strip("\n "))
+    print(stripped_blocks)
+    return stripped_blocks
 
 #split_nodes_link(linknode)
-text_to_textnodes(nonetext)
+#text_to_textnodes(nonetext)
+#markdown_to_blocks(md)

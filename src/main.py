@@ -2,7 +2,15 @@ from textnode import *
 from htmlnode import *
 
 def main():
+
     
+      
+    return
+
+main()
+
+
+"""
     #print (TextNode("1", "Normal text", "3"))
     one = HTMLNode("Any", "value", "children", {
     "href": "https://www.google.com",
@@ -18,7 +26,9 @@ def main():
         LeafNode(None, "Normal text"),
     ],
 )
-    #err = ParentNode(None, None)
+"""
+
+#err = ParentNode(None, None)
     #noerr = ParentNode("p", [LeafNode("p", "Chazz it up!", {"The": "Chazz", "Oat": "Meal"})])
     #print(one.props_to_html())
     #print(two.props_to_html())
@@ -26,6 +36,3 @@ def main():
     #print(four.to_html())
     #print (err.to_html())
     #print(noerr.to_html())
-      
-    return
-main()
