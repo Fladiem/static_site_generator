@@ -41,5 +41,5 @@ def text_node_to_html_node(text_node):
             return LeafNode("img", '', {"src": text_node.url, "alt": text_node.text})
             
 normal_case = TextNode("text here", TextType.IMAGE, "https://gameinformer.com")
-#print(text_node_to_html_node(normal_case))        
+print(text_node_to_html_node(normal_case))        
         

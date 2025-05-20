@@ -202,9 +202,6 @@ bort """
                        "bort"]
         self.assertEqual(blocks, test_blocks)
 
-    
-
-
-        
+     
 if __name__ == "__main__":
     unittest.main()

@@ -198,17 +198,17 @@ def text_to_textnodes(text): #This function uses the previous functions to conve
     if isinstance(text, list):
         old_nodes = text
         #print(old_nodes)
-    for node in old_nodes:
+    for node in old_nodes:  #modifies nodes individually with all split_nodes functions
         nodes = split_nodes_link(node)
         nodes = split_nodes_image(nodes)
         nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
         nodes = split_nodes_delimiter(nodes, "_", TextType.ITALIC)
         nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
-        out.extend(nodes)
-    print(out)
+        out.extend(nodes) #adds processed nodes to output for return
+    #print(out)
     return out
 
-def markdown_to_blocks(text):
+def markdown_to_blocks(text):   #Ch4 section 1  Converts markdown to blocks
     blocks_index = 0
     stripped_blocks = []
     blocks = text.split("\n\n")
@@ -218,10 +218,11 @@ def markdown_to_blocks(text):
         if blocks[blocks_index-1] != '' and blocks[blocks_index-1] != '\n':
             
             #print("segment:", blocks[blocks_index-1])
-            stripped_blocks.append(block.strip("\n "))
-    print(stripped_blocks)
+            stripped_blocks.append(block.strip("\n "))  #strips whitespace and incorrect newlines
+            #may need to specifically remove newline from index 0 only, but unlikely
+    #print(stripped_blocks)
     return stripped_blocks
 
 #split_nodes_link(linknode)
 #text_to_textnodes(nonetext)
-#markdown_to_blocks(md)
+#markdown_to_blocks(MD_sample)
