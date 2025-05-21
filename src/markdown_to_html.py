@@ -106,10 +106,10 @@ def remove_markdown_quote_format(block):
             stripped_lines.append(f'{line[2:len(line)]}\n')
     #print(stripped_lines)
     out = "".join(stripped_lines)
-    #print(out)
-    return out.strip("\n")
+    #print(stripped_lines[0] + out.strip("\n"))
+    return "\n" + out
 
-#remove_markdown_quote_format(test_block_quote)
+remove_markdown_quote_format(test_block_quote)
 unordered_example = """
 - This is the first list item in a list block
 - This is a list item
@@ -197,9 +197,7 @@ def markdown_to_html_node(markdown_doc):
     return div_parent
 
 trouble = """
-```
-This is text that _should_ remain
-the **same** even with inline stuff
-```
-"""  
-#markdown_to_html_node(trouble)
+This is text with _an_ image ![fake image](www.loweffort.com/&*44LAZY.nope)
+and a second **image** ![potato](www.notareal_linktoapotatoimage.com)
+"""
+markdown_to_html_node(trouble)

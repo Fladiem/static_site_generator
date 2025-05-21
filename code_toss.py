@@ -78,3 +78,19 @@ else:    #if node.text_type == TextType.TEXT
         if code_match != []:
             nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
     """
+
+"""
+def block_to_parent_child(block, outer_tag, inner_tag):
+    child = LeafNode(inner_tag, block)
+    parent = ParentNode(outer_tag, child)
+    #print("parent:", parent)
+    #print("child:", child)
+    return parent, child
+#block_to_parent_child(test_block, "pre", "code")
+"""
+'block_to_parent_child(block.strip("`"), "pre","code")' #previously implemented for BlockType.CODE in markdown_to_html
+ #returns parent, child combination based tags provided. Created with focus on...
+#code blocks.
+
+
+    

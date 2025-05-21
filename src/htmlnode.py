@@ -57,14 +57,21 @@ class LeafNode(HTMLNode):   #Represents single HTML tag with no children
             raise ValueError("Leaf nodes must have a value")
         if self.tag == None:
             return f'{self.value}'
-        #alteration made in ch 4-3 for markdown_to_html, deviates from course suggestion START
+        #alteration made in ch 4-3 for markdown_to_html, deviates from course suggestion? START
         if self.props == None and self.tag == "li":
             return f'  <{self.tag}>{self.value}</{self.tag}>\n'
-        #alteration made in ch 4-3 for markdown_to_html, deviates from course suggestion END
+        #alteration made in ch 4-3 for markdown_to_html, deviates from course suggestion? END
         if self.props == None:
             return f'<{self.tag}>{self.value}</{self.tag}>'
+        if self.props != None and self.tag == "img":  #another alteration Ch 4-3
+            key_list = []
+            for key in self.props:
+                key_list.append(key)
+            output = f'<{self.tag} {key_list[0]}="{self.props[key_list[0]]}" {key_list[1]}="{self.props[key_list[1]]}" />'
+            return output
+
         else:
-            for key in self.props:  #May need alterations to account for multiple dict entries
+            for key in self.props:  #May need alterations to account for multiple dict entries !See logic for img tag above.
                 selfkey = key    #see above solution for output in HTMLNode
                 output = output + f'<{self.tag} {selfkey}="{self.props[selfkey]}">{self.value}</{self.tag}>'   #Ch2 Section 4
 
