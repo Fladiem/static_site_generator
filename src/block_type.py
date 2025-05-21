@@ -3,7 +3,7 @@ import re
 #START variables for test purposes
 #paragraph = "This is just a normal paragraph.\nMost humble."
 #heading = "# This is a heading\n## This is a second heading\n### third\n#### fourth\n##### fifth\n###### sixth\n#######seventh"
-#code = "```\nThis is code\n```"
+code = "```\nThis is code\n```"
 #quote = "> This is a quote\n> From the famous philosopher Shrek"
 #unordered_list = "- This is the first list entry\n- This is the second list entry"
 #ordered_list = "1. This is the first ordered entry\n2. This is the second ordered entry"  #END variables for test purposes
@@ -22,7 +22,9 @@ def block_to_block_type(block): #Takes a single block of markdown text and retur
     #print(to_analyze)
     block_type = ''
     heading_matches = re.findall(r"\#{1,10}\s", block)
+    heading_false = re.findall(r"\#{7,}", block)
     #print(heading_matches)
+    #print(heading_false)
     code_matches_begin = re.findall(r"```[^`]", block[0:4])
     code_matches_end = re.findall(r"[^`]```", block[(len(block)-4):(len(block))])
     #print("start:", block[0:4], "end:", block[(len(block)-4):(len(block))])
@@ -43,7 +45,7 @@ def block_to_block_type(block): #Takes a single block of markdown text and retur
         if line[0:3] == f"{count}. ":
             ord_list_matches.append("T")
     
-    if len(heading_matches) < 7 and heading_matches != [] and len(to_analyze) < 7:
+    if len(heading_matches) < 7 and heading_matches != [] and len(to_analyze) < 7 and heading_false == []:
         block_type = BlockType.HEAD
     elif code_matches_begin != [] and code_matches_end != []:
         block_type = BlockType.CODE
@@ -59,6 +61,6 @@ def block_to_block_type(block): #Takes a single block of markdown text and retur
     #print(len(ord_list_matches), len(to_analyze))
     #print(block_type)
     return block_type
-#block_to_block_type(quote)
+block_to_block_type(code)
 
 #heading works, code works, quote works, need unordered

@@ -57,6 +57,10 @@ class LeafNode(HTMLNode):   #Represents single HTML tag with no children
             raise ValueError("Leaf nodes must have a value")
         if self.tag == None:
             return f'{self.value}'
+        #alteration made in ch 4-3 for markdown_to_html, deviates from course suggestion START
+        if self.props == None and self.tag == "li":
+            return f'  <{self.tag}>{self.value}</{self.tag}>\n'
+        #alteration made in ch 4-3 for markdown_to_html, deviates from course suggestion END
         if self.props == None:
             return f'<{self.tag}>{self.value}</{self.tag}>'
         else:
@@ -75,6 +79,16 @@ class ParentNode(HTMLNode):
             raise ValueError("Parent node must have tag argument")
         if self.children == None:
             raise ValueError("Parent node must have children argument")
+        #alteration made in ch 4-3 for markdown_to_html, deviates from course suggestion START
+        if self.tag == "ul" or self.tag == "ol":
+            output = ''
+            for child in self.children:   #lists represents (tag, value) of LeafNodes
+                output += child.to_html() #f'<{lists.tag}>{lists.value}</{lists.tag}>' 
+            
+            
+            return f'<{self.tag}>\n{output}</{self.tag}>'
+
+        #alteration made in ch 4-3 for markdown_to_html, deviates from course suggestion END
         else:
             
             output = ''

@@ -1,6 +1,5 @@
 from htmlnode import *
 from textnode import *
-import re
 from extract_markdown import extract_markdown_images, extract_markdown_links
 
 
@@ -208,7 +207,7 @@ def text_to_textnodes(text): #This function uses the previous functions to conve
     #print(out)
     return out
 
-def markdown_to_blocks(text):   #Ch4 section 1  Converts markdown to blocks
+def markdown_to_blocks(text):   #Ch4 section 1  Converts markdown to blocks  blocks are a list
     blocks_index = 0
     stripped_blocks = []
     blocks = text.split("\n\n")
