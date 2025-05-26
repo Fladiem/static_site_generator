@@ -18,6 +18,8 @@ the **power within**
 > This is a quote from the famous philosopher _Shrek_
 > Ogres are like onions, they have layers
 
+This is a paragraph with an ![fake image](www.loweffort.com/&*44LAZY.nope)
+
 
 - This is the _first_ list item in a list block
 - This is a `list` item
@@ -200,4 +202,4 @@ trouble = """
 This is text with _an_ image ![fake image](www.loweffort.com/&*44LAZY.nope)
 and a second **image** ![potato](www.notareal_linktoapotatoimage.com)
 """
-markdown_to_html_node(trouble)
+markdown_to_html_node(MD_sample)
