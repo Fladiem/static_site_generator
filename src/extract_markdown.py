@@ -7,10 +7,37 @@ def extract_markdown_images(text):
 def extract_markdown_links(text):
     matches = re.findall(r"(?<!!)\[(.*?)\]\(([^\(\)]*)\)", text)
     return matches
-   
+
 #print(extract_markdown_images(shmeebo))
 
 #print(extract_markdown_links(shmorblo))
+header_ex ="""
+# The Last Roaming Glacier
+
+content
+
+## The Tlingit Tribe's Traditional Woodworking
+"""
+header_ex_two = ""
+def extract_title(markdown): #Extracts the first header from a markdown document
+    try:
+        matches = re.findall(r"(?<!#)#\s((.*?))\n", markdown)
+        #print(matches)
+        if matches == []:
+            raise Exception("No header detected! Example: # header1")
+        
+        return matches[0][0].strip("# ")
+
+    except Exception as e:
+        print(f"{e}")
+        return f"{e}"
+    
+
+    
+
+#extract_title(header_ex_two)
+   
+
 
 #\!\[(.*?)\]\((http\w+://\w+\.\w+\.\w+\/\w+\W+\w+)       my poorly functioning novice solutions
 

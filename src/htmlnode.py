@@ -58,6 +58,8 @@ class LeafNode(HTMLNode):   #Represents single HTML tag with no children
         if self.tag == None:
             return f'{self.value}'
         #alteration made in ch 4-3 for markdown_to_html, deviates from course suggestion? START
+        ####if self.props == None and (self.tag == "ul" or self.tag == "ol"):
+            ####return f'<{self.tag}>{self.value}</{self.tag}>'
         if self.props == None and self.tag == "li":
             return f'  <{self.tag}>{self.value}</{self.tag}>\n'
         #alteration made in ch 4-3 for markdown_to_html, deviates from course suggestion? END

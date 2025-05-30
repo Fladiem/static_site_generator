@@ -1,6 +1,7 @@
+
 from htmlnode import *
 from textnode import *
-from extract_markdown import extract_markdown_images, extract_markdown_links
+from extract_markdown import extract_markdown_images, extract_markdown_links, extract_title
 
 
 linknode = [TextNode(
@@ -225,3 +226,10 @@ def markdown_to_blocks(text):   #Ch4 section 1  Converts markdown to blocks  blo
 #split_nodes_link(linknode)
 #text_to_textnodes(nonetext)
 #markdown_to_blocks(MD_sample)
+tolk_trouble = """
+> "I am in fact a Hobbit in all but size."
+>
+> -- J.R.R. Tolkien"""
+markdown_to_blocks(tolk_trouble)
+
+

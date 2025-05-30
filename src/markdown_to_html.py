@@ -1,5 +1,6 @@
+import os
 from textnode import *
-from markdown_processing import markdown_to_blocks, text_to_textnodes
+from markdown_processing import markdown_to_blocks, text_to_textnodes, extract_title
 from block_type import *
 import re
 from htmlnode import *
@@ -100,16 +101,22 @@ test_block_quote = '''
 > This is a quote from the famous philosopher Shrek
 > Ogres are like onions, they have layers
 '''
+
+tolk_trouble = """
+> "I am in fact a Hobbit in all but **size**."
+>
+> -- J.R.R. Tolkien"""
+
 def remove_markdown_quote_format(block):
-    lines = block.split("\n")
+    lines = block.split(">")
     stripped_lines = []
     for line in lines:
         if line != '':
-            stripped_lines.append(f'{line[2:len(line)]}\n')
+            stripped_lines.append(line.strip(" "))
     #print(stripped_lines)
     out = "".join(stripped_lines)
-    #print(stripped_lines[0] + out.strip("\n"))
-    return "\n" + out
+    print(out.strip("\n "))
+    return out.strip("\n ") #previously adding newline in front of out? erroneous?
 
 remove_markdown_quote_format(test_block_quote)
 unordered_example = """
@@ -184,7 +191,9 @@ def markdown_to_html_node(markdown_doc):
         if bl_type == BlockType.CODE:
             html_nodes.append(code_block_to_parent_child(remove_markdown_code_format(block), "pre","code")) #<pre><code>
         if bl_type == BlockType.QUOTE:
-            html_nodes.append(LeafNode("blockquote", remove_markdown_quote_format(leaf_value_to_html(block)))) #<blockquote>
+            edited = remove_markdown_quote_format(block)
+            #print("HEEEEEEEY", edited_block)
+            html_nodes.append(LeafNode("blockquote", leaf_value_to_html(edited))) #<blockquote>
         if bl_type == BlockType.UNORDERED: # <ul> <li>
             html_nodes.append(markdown_unordered_list_to_parent_child(block, "ul", "li"))
         if bl_type == BlockType.ORDERED: #<ol> <li>
@@ -202,4 +211,50 @@ trouble = """
 This is text with _an_ image ![fake image](www.loweffort.com/&*44LAZY.nope)
 and a second **image** ![potato](www.notareal_linktoapotatoimage.com)
 """
-markdown_to_html_node(MD_sample)
+tolk_trouble = """
+> "I am in fact a Hobbit in all but size."
+>
+> -- J.R.R. Tolkien"""
+#markdown_to_html_node(MD_sample)
+
+def generate_page(from_path, template_path, dest_path):
+    print(f'Generating page from {from_path} to {dest_path} using {template_path}')
+    if os.path.isfile(from_path): #if from_path is a file...
+        from_path_file = open(from_path, mode= 'r') #open the file
+        markdown = from_path_file.read() #read the file, assign its contents to markdown variable
+        from_path_file.close() #closes the file
+    #print(markdown)
+    if os.path.isfile(template_path):
+        template_file = open(template_path)
+        template = template_file.read()
+        template_file.close()
+    #print(template)
+    processed_MD = markdown_to_html_node(markdown)
+    MD_as_HTML = processed_MD.to_html()
+    #print(processed_MD.to_html())
+    MD_title = extract_title(markdown) #perhaps edit to grab info from HTML instead?
+    #print(MD_title)
+    rep_template= template.replace("{{ Title }}", MD_title )
+   
+    rep_template = rep_template.replace("{{ Content }}", MD_as_HTML)
+    #print(rep_template)
+    dest_path_list = dest_path.split("/") #current implementation supports one directory in path
+
+    if os.path.exists(dest_path):
+        HTML_page = open(dest_path, mode="w")
+        HTML_page.write("")
+        HTML_page.write(rep_template)
+        HTML_page.close()
+
+    if os.path.exists(dest_path) != True:
+        if os.path.isdir(dest_path_list[0]) != True:
+            os.makedirs(dest_path_list[0])
+        HTML_page = open(dest_path, mode="x")
+        HTML_page.write(rep_template)
+        HTML_page.close()
+    return
+        
+
+    
+
+#generate_page("content/index.md", "template.html", "public/index.html")

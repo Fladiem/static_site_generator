@@ -1,12 +1,14 @@
 from textnode import *
 from htmlnode import *
 from static_to_public import *
+from markdown_to_html import generate_page
 
 def main():
     #root_dir = "."
     #print(os.listdir(root_dir))
 
     static_to_public("static", "public")
+    generate_page("content/index.md", "template.html", "public/index.html")
     
       
     return

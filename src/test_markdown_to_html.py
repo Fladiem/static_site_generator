@@ -48,7 +48,7 @@ the **same** even with inline stuff
         html = node.to_html()
         self.assertEqual(
             html,
-            "<div><blockquote>\nThis is a quote from the famous philosopher <b>Shrek</b>\nOgres are like onions, they have layers\n</blockquote></div>"
+            "<div><blockquote>This is a quote from the famous philosopher <b>Shrek</b>\nOgres are like onions, they have layers</blockquote></div>"
         )
     def test_link(self):
         md = """

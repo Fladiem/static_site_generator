@@ -3,8 +3,9 @@ import re
 #START variables for test purposes
 #paragraph = "This is just a normal paragraph.\nMost humble."
 #heading = "# This is a heading\n## This is a second heading\n### third\n#### fourth\n##### fifth\n###### sixth\n#######seventh"
-code = "```\nThis is code\n```"
-#quote = "> This is a quote\n> From the famous philosopher Shrek"
+#code = "```\nThis is code\n```"
+quote = "> This is a quote\n> From the famous philosopher Shrek"
+trouble = ">"
 #unordered_list = "- This is the first list entry\n- This is the second list entry"
 #ordered_list = "1. This is the first ordered entry\n2. This is the second ordered entry"  #END variables for test purposes
 
@@ -37,8 +38,8 @@ def block_to_block_type(block): #Takes a single block of markdown text and retur
     for line in to_analyze:
         count += 1#starts count at 1, increments 1 for every line in to_analyze
         #count used to identify ordered lists
-        
-        if line[0:2] == "> ":
+        #print(line)
+        if line[0:2] == "> " or line == ">":
             quote_matches.append("T")
         if line[0:2] == "- ":
             uno_list_matches.append("T")
@@ -61,6 +62,6 @@ def block_to_block_type(block): #Takes a single block of markdown text and retur
     #print(len(ord_list_matches), len(to_analyze))
     #print(block_type)
     return block_type
-block_to_block_type(code)
+#block_to_block_type(trouble)
 
 #heading works, code works, quote works, need unordered
