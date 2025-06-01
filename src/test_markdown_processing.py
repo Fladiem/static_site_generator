@@ -87,7 +87,7 @@ class test_MD_processing(unittest.TestCase):
     def test_split_images_basic(self):
         node = TextNode("This is a chicken wing", TextType.TEXT)
         new_nodes = [TextNode("This is a chicken wing", TextType.TEXT)]
-        self.assertEqual(split_nodes_image(node), new_nodes)
+        self.assertEqual(split_nodes_link(node), new_nodes)
     
     def test_split_link_basic(self):
         node = TextNode("This is a thimble of https://www.gobbagooblin.com/butter", TextType.TEXT)

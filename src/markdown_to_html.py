@@ -1,61 +1,35 @@
 import os
 from textnode import *
-from markdown_processing import markdown_to_blocks, text_to_textnodes, extract_title
+from markdown_processing import markdown_to_blocks, text_to_textnodes
+from extract_markdown import extract_title
 from block_type import *
 import re
 from htmlnode import *
 
-MD_sample = """
-# This is a heading
+uno_list_trouble = '- [Why Glorfindel is More Impressive than Legolas](/blog/glorfindel)\n- [Why Tom Bombadil Was a Mistake](/blog/tom)\n- [The Unparalleled Majesty of "The Lord of the Rings"](/blog/majesty)'
 
-This is a paragraph of text. It has some **bold** and _italic_ words inside of it.
-This is the same paragraph on a new line.
-
-```
-This is code that unleashes the **power within**
-the **power within**
-```
-
-> This is a quote from the famous philosopher _Shrek_
-> Ogres are like onions, they have layers
-
-This is a paragraph with an ![fake image](www.loweffort.com/&*44LAZY.nope)
-
-
-- This is the _first_ list item in a list block
-- This is a `list` item
-- This is **another** list item
-
-1. This is the `first` list item in a list block
-2. This is the _second_ item in a list block
-3. This is the **third** item in a list block
+unoLT_image_check = """  
+- ![alt text](url)
+- ![2alt](2rl)
+- **ollo** ![3alt](3rl)
 """
-
-ex_para = """
-This is a paragraph of text. It has some **bold** and _italic_ words inside of it.
-This is the same paragraph on a new line.
-"""
-
-test_block_code = """
-```
-This is code that unleashes the power within
-the power within
-```
-"""
-
 def leaf_value_to_html(block):
     leafnodes = []
+    #print(block)
     text_nodes = text_to_textnodes(block)
+    #print(text_nodes)
     html_to_be_joined = []
     for node in text_nodes:
+        #print(node)
+        #print(text_node_to_html_node(node))
         leafnodes.append(text_node_to_html_node(node))
     for leaf in leafnodes:
         html_to_be_joined.append(leaf.to_html())
     #print(html_to_be_joined)
     joined_html = ''.join(html_to_be_joined)
-    #print(joined_html)
+    #print(joined_html) ######## HERE, the problem is HERE   NEVERMIND, problem is - removal
     return joined_html
-#leaf_value_to_html(ex_para)
+#leaf_value_to_html(uno_list_trouble)
 
 def remove_newline(block):
     out_list = []
@@ -83,7 +57,6 @@ def remove_markdown_code_format(block):
             out_lines.append(s_line)
     #print(out_lines)
 
-
     out = "".join(out_lines)
     #print(out)
     return out
@@ -97,16 +70,6 @@ def code_block_to_parent_child(block, outer_tag, inner_tag):
     return parent
 #block_to_parent_child(test_block, "pre", "code")
 
-test_block_quote = '''
-> This is a quote from the famous philosopher Shrek
-> Ogres are like onions, they have layers
-'''
-
-tolk_trouble = """
-> "I am in fact a Hobbit in all but **size**."
->
-> -- J.R.R. Tolkien"""
-
 def remove_markdown_quote_format(block):
     lines = block.split(">")
     stripped_lines = []
@@ -115,34 +78,28 @@ def remove_markdown_quote_format(block):
             stripped_lines.append(line.strip(" "))
     #print(stripped_lines)
     out = "".join(stripped_lines)
-    print(out.strip("\n "))
+    #print(out.strip("\n "))
     return out.strip("\n ") #previously adding newline in front of out? erroneous?
 
-remove_markdown_quote_format(test_block_quote)
-unordered_example = """
-- This is the first list item in a list block
-- This is a list item
-- This is another list item
-"""
+#remove_markdown_quote_format(test_block_quote)
+
 
 def remove_markdown_unordered_list_format(block): #prepares text to be HTMLNode value
     lines = block.split("\n")
     stripped_lines = []
+    #print(lines)
     
     for line in lines:
-        if line != '' and line != line[0]:
-            stripped_lines.append(f'{line.strip('- ')}\n')
+        #print(line)
+        if line != '': #and line != line[0]:
+            stripped_lines.append(f'{line[2:len(line)]}\n')  # f"{line.strip('- ')}"
     pre_out = "".join(stripped_lines)
+    #print(pre_out)
     out = (pre_out.strip("\n")) #previously added newline to start of pre_out
     #print(out)
     return out
 
-#remove_markdown_list_format(unordered_example, "- ")
-ordered_example = """
-1. This is the first list item in a list block
-2. This is the second item in a list block
-3. This is the third item in a list block
-"""
+#remove_markdown_unordered_list_format(uno_list_trouble)
 
 def remove_markdown_ordered_list_format(block):
     lines = block.split("\n")
@@ -166,16 +123,19 @@ def markdown_ordered_list_to_parent_child(block):
     parent = ParentNode("ol", children)
     return parent
 
-def markdown_unordered_list_to_parent_child(block, outer_tag, inner_tag):
+def markdown_unordered_list_to_parent_child(block): #, outer_tag, inner_tag
     children = []
-    value_to_be = remove_markdown_unordered_list_format(leaf_value_to_html(block))
+    value_to_be = remove_markdown_unordered_list_format(block)
+    #print("1", value_to_be)
+    value_to_be = leaf_value_to_html(value_to_be)
+    #print("2", value_to_be)
     lines = value_to_be.split("\n")
     for line in lines:
-        children.append(LeafNode(inner_tag, f'{line}'))
-    parent = ParentNode(outer_tag, children)
+        children.append(LeafNode("li", f'{line}'))
+    parent = ParentNode("ul", children)
     return parent
 
-#markdown_list_to_parent_child(unordered_example, "ul", "li")
+#markdown_unordered_list_to_parent_child(uno_list_trouble) ####examine
 
 
 def markdown_to_html_node(markdown_doc):
@@ -192,10 +152,9 @@ def markdown_to_html_node(markdown_doc):
             html_nodes.append(code_block_to_parent_child(remove_markdown_code_format(block), "pre","code")) #<pre><code>
         if bl_type == BlockType.QUOTE:
             edited = remove_markdown_quote_format(block)
-            #print("HEEEEEEEY", edited_block)
             html_nodes.append(LeafNode("blockquote", leaf_value_to_html(edited))) #<blockquote>
         if bl_type == BlockType.UNORDERED: # <ul> <li>
-            html_nodes.append(markdown_unordered_list_to_parent_child(block, "ul", "li"))
+            html_nodes.append(markdown_unordered_list_to_parent_child(block))
         if bl_type == BlockType.ORDERED: #<ol> <li>
             html_nodes.append(markdown_ordered_list_to_parent_child(block))
 
@@ -207,15 +166,7 @@ def markdown_to_html_node(markdown_doc):
     #print(div_parent.to_html())
     return div_parent
 
-trouble = """
-This is text with _an_ image ![fake image](www.loweffort.com/&*44LAZY.nope)
-and a second **image** ![potato](www.notareal_linktoapotatoimage.com)
-"""
-tolk_trouble = """
-> "I am in fact a Hobbit in all but size."
->
-> -- J.R.R. Tolkien"""
-#markdown_to_html_node(MD_sample)
+#markdown_to_html_node(unoLT_image_check)
 
 def generate_page(from_path, template_path, dest_path):
     print(f'Generating page from {from_path} to {dest_path} using {template_path}')
@@ -238,23 +189,26 @@ def generate_page(from_path, template_path, dest_path):
    
     rep_template = rep_template.replace("{{ Content }}", MD_as_HTML)
     #print(rep_template)
-    dest_path_list = dest_path.split("/") #current implementation supports one directory in path
+    dest_path_sections = dest_path.split("/") #current implementation supports one directory in path
+    new_path = ""
 
     if os.path.exists(dest_path):
+
         HTML_page = open(dest_path, mode="w")
         HTML_page.write("")
         HTML_page.write(rep_template)
         HTML_page.close()
+    #if os.path.exists(dest_path) != True:
+    else:
+        for i in range(0, len(dest_path_sections)):
 
-    if os.path.exists(dest_path) != True:
-        if os.path.isdir(dest_path_list[0]) != True:
-            os.makedirs(dest_path_list[0])
+            if dest_path_sections[i] != dest_path_sections[-1]:
+                new_path = new_path + "/" + dest_path_sections[i]
+        new_path = new_path.strip("/")
+        os.makedirs(new_path, exist_ok=True)
         HTML_page = open(dest_path, mode="x")
         HTML_page.write(rep_template)
         HTML_page.close()
     return
         
-
-    
-
 #generate_page("content/index.md", "template.html", "public/index.html")

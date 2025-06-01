@@ -9,8 +9,10 @@ def extract_markdown_links(text):
     return matches
 
 #print(extract_markdown_images(shmeebo))
+#print(extract_markdown_images(shmorblo))
 
 #print(extract_markdown_links(shmorblo))
+#print(extract_markdown_links(shmeebo))
 header_ex ="""
 # The Last Roaming Glacier
 

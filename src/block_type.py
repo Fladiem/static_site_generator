@@ -4,9 +4,10 @@ import re
 #paragraph = "This is just a normal paragraph.\nMost humble."
 #heading = "# This is a heading\n## This is a second heading\n### third\n#### fourth\n##### fifth\n###### sixth\n#######seventh"
 #code = "```\nThis is code\n```"
-quote = "> This is a quote\n> From the famous philosopher Shrek"
+quote = "> This is a quote\n> From the **famous** philosopher Shrek"
 trouble = ">"
 #unordered_list = "- This is the first list entry\n- This is the second list entry"
+uno_list_trouble = '- [Why Glorfindel is More Impressive than Legolas](/blog/glorfindel)\n- [Why Tom Bombadil Was a Mistake](/blog/tom)\n- [The Unparalleled Majesty of "The Lord of the Rings"](/blog/majesty)'
 #ordered_list = "1. This is the first ordered entry\n2. This is the second ordered entry"  #END variables for test purposes
 
 class BlockType(Enum): # Types of markdown blocks
@@ -62,6 +63,6 @@ def block_to_block_type(block): #Takes a single block of markdown text and retur
     #print(len(ord_list_matches), len(to_analyze))
     #print(block_type)
     return block_type
-#block_to_block_type(trouble)
+#block_to_block_type(uno_list_trouble)
 
 #heading works, code works, quote works, need unordered

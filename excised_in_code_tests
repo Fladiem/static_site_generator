@@ -1,0 +1,114 @@
+Markdown Processing
+______________________________
+
+multitext = "This is _text_ with a **bold** word and a `code block` and a [link](https://boot.dev) and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg)"
+nonetext = "This is plain text with no **special** properties. I lied it has a bold word"
+MD_sample = """
+# This is a heading
+
+This is a paragraph of text. It has some **bold** and _italic_ words inside of it.
+This is the same paragraph on a new line.
+
+
+
+
+
+- This is the first list item in a list block
+- This is a list item
+- This is another list item
+"""
+
+md = """ &&*&^This is a chicken wingThisisachickenwing
+golfingpotato
+fig newnuton
+
+nest
+needle
+
+normandy
+
+
+
+
+bort """
+
+#regardless of the scope MD text is in it should have no spaces or tabs before each line
+#as above in MD_sample
+
+linknode = [TextNode(
+    "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev) and to nothing",
+    TextType.TEXT), TextNode("This is the second text with a link [to google](www.google.com)", TextType.TEXT), 
+    TextNode("This is plain text with no link", TextType.TEXT),
+    TextNode("This is text with an image ![fake image](www.loweffort.com/&*44LAZY.nope)", TextType.IMAGE)]
+imagenode = [TextNode("This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)",
+                     TextType.TEXT), TextNode("This is the second text with a ![grinch](https://giphy.com/gifs/thegoodfilms-vintage-cartoon-smiling-UTFiHeDL8cOSA)", TextType.TEXT),
+                       TextNode("This is just text", TextType.TEXT)]
+
+Markdown to HTML
+_______________
+
+MD_sample = """
+# This is a heading
+
+This is a paragraph of text. It has some **bold** and _italic_ words inside of it.
+This is the same paragraph on a new line.
+
+```
+This is code that unleashes the **power within**
+the **power within**
+```
+
+> This is a quote from the famous philosopher _Shrek_
+> Ogres are like onions, they have layers
+
+This is a paragraph with an ![fake image](www.loweffort.com/&*44LAZY.nope)
+
+
+- This is the _first_ list item in a list block
+- This is a `list` item
+- This is **another** list item
+
+1. This is the `first` list item in a list block
+2. This is the _second_ item in a list block
+3. This is the **third** item in a list block
+"""
+
+ex_para = """
+This is a paragraph of text. It has some **bold** and _italic_ words inside of it.
+This is the same paragraph on a new line.
+"""
+
+test_block_code = """
+```
+This is code that unleashes the power within
+the power within
+```
+"""
+
+test_block_quote = '''
+> This is a quote from the famous philosopher Shrek
+> Ogres are like onions, they have layers
+'''
+
+tolk_trouble = """
+> "I am in fact a Hobbit in all but **size**."
+>
+> -- J.R.R. Tolkien"""
+
+unordered_example = """
+- This is the first list item in a list block
+- This is a list item
+- This is another list item
+"""
+unordered_trouble ="""
+- [Why Glorfindel is More Impressive than Legolas](/blog/glorfindel)
+- [Why Tom Bombadil Was a Mistake](/blog/tom)
+- [The Unparalleled Majesty of "The Lord of the Rings"](/blog/majesty)
+"""
+un_tr_two = '- [Why Glorfindel is More Impressive than Legolas](/blog/glorfindel)\n- [Why Tom Bombadil Was a Mistake](/blog/tom)\n- [The Unparalleled Majesty of "The Lord of the Rings"](/blog/majesty)'
+
+ordered_example = """
+1. This is the first list item in a list block
+2. This is the second item in a list block
+3. This is the third item in a list block
+"""
