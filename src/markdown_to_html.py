@@ -1,4 +1,5 @@
 import os
+import pathlib
 from textnode import *
 from markdown_processing import markdown_to_blocks, text_to_textnodes
 from extract_markdown import extract_title
@@ -210,5 +211,58 @@ def generate_page(from_path, template_path, dest_path):
         HTML_page.write(rep_template)
         HTML_page.close()
     return
+
+def generate_pages_recursive(dir_path, template_path, dest_dir_path):
+    print (f'Generating page from {dir_path} at {dest_dir_path} with {template_path}')
+    if os.path.isfile(template_path): 
+        template_file = open(template_path)
+        template = template_file.read()
+        template_file.close()
+        #print(template)
+        
+    start_paths = os.listdir(dir_path)
+    for start_path in start_paths:
+        truestart = start_path
+        start_path = os.path.join(dir_path, start_path)
+        p = pathlib.PurePosixPath(start_path)
+        dest_component = p.relative_to(dir_path)
+        dest_path = os.path.join(dest_dir_path, dest_component)
+        #dinko_path = dest_path.split("/")
+        #dinko_path = "/".join(dinko_path[1:])
+        #print(dinko_path)
+        
+        #print("start path:", start_path)
+        #print(dest_path)
+        if os.path.isfile(start_path):
+            
+            file_to_open = open(start_path)
+            markdown = file_to_open.read()
+            file_to_open.close()
+            processed_MD = markdown_to_html_node(markdown)
+            MD_as_HTML = processed_MD.to_html()
+            MD_title = extract_title(markdown)
+            replace_template = template.replace("{{ Title }}", MD_title)
+            replace_template = replace_template.replace("{{ Content }}", MD_as_HTML)
+            dest_path_list = dest_path.split("/")
+            file_path = dest_path_list[-1][0:-3]   #The end of start_path with .md removed: index
+            dest_path_list = dest_path_list[0:-1] #start_path broken down into a list of each dir/sub dir, excluding file information
+            dirs_path = "/".join(dest_path_list) #The path to start_path without the file at the end:  public/content
+            
+            os.makedirs(dirs_path, exist_ok=True)  #Makes the directory for file to be written in
+            HTML_page = open(f'{dirs_path}/{file_path}.html', mode= "w") #will not work for any file type other than .md, consider use of Regex
+            #HTML_page.write("")
+            HTML_page.write(replace_template)
+            HTML_page.close()
+
+        if os.path.isdir(start_path):
+            dest_path = os.path.join(dest_dir_path, truestart)
+            os.makedirs(dest_path, exist_ok=True)
+            start_item = start_path
+            dest_item = dest_path
+            #print (start_item, "-->", dest_item)
+            generate_pages_recursive(start_item, 'template.html', dest_item)
+
+    return
         
 #generate_page("content/index.md", "template.html", "public/index.html")
+#generate_pages_recursive("content", "template.html", "public")

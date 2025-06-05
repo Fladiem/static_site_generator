@@ -194,7 +194,8 @@ def block_to_parent_child(block, outer_tag, inner_tag):
 
 
 #implementation of two separate functions for splitting images and links causes errors on lists including consecutive links or images, based on what is called first
-#in text_to_text_nodes, replaced with one function
+#in text_to_text_nodes, replaced with one function ##amendment, this configuration works with adjustments to text_to_text_nodes to only use one function or the other...
+##based on image_extraction and link_extraction results
 
 def split_nodes_image(old_nodes):
     #defaultTT = TextType.IMAGE
@@ -282,11 +283,12 @@ def split_nodes_link(old_nodes):
     return new_nodes
 #split_nodes_link(uno_list_tnode)
 
-##implementation of two separate functions for splitting images and links causes errors on lists including consecutive links or images, based on what is called first
-#in text_to_text_nodes, replaced with one function
+#implementation of two separate functions for splitting images and links causes errors on lists including consecutive links or images, based on what is called first
+#in text_to_text_nodes, replaced with one function ##amendment, this configuration works with adjustments to text_to_text_nodes to only use one function or the other...
+##based on image_extraction and link_extraction results
 
 
-#### or not? Combined function difficult to make work the same way
+#### or not? Combined function difficult to make work the same way, invalidates several tests and keeps unwanted whitespaces as is.
 def split_nodes_images_and_links(old_nodes):
     img_nodes = []
     link_nodes = []
@@ -348,4 +350,4 @@ def split_nodes_images_and_links(old_nodes):
     
     #print(out_nodes)
     return out_nodes
-#### or not? Combined function difficuklt to make work the same way
+#### or not? Combined function difficult to make work the same way, invalidates several tests and keeps unwanted whitespaces as is.

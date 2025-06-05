@@ -35,7 +35,7 @@ def static_to_public(static, public):
     
     
                   
-static_to_public("static", "public")
+#static_to_public("static", "public")
 
 """filepath_storage = os.listdir(parent_directory)
     
