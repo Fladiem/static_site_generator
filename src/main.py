@@ -1,14 +1,14 @@
+import sys
 from textnode import *
 from htmlnode import *
 from static_to_public import *
 from markdown_to_html import generate_pages_recursive
 
 def main():
-    #root_dir = "."
-    #print(os.listdir(root_dir))
 
-    static_to_public("static", "public")
-    generate_pages_recursive("content", "template.html", "public")
+    static_to_public("static", "docs")
+    generate_pages_recursive("content", "template.html", "docs")
+    
     #generate_page("content/index.md", "template.html", "public/index.html")
     #generate_page("content/blog/glorfindel/index.md", "template.html", "public/blog/glorfindel/index.html")
     #generate_page("content/blog/tom/index.md", "template.html", "public/blog/tom/index.html")

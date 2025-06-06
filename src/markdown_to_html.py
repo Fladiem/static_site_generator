@@ -1,11 +1,18 @@
 import os
 import pathlib
+import sys
 from textnode import *
 from markdown_processing import markdown_to_blocks, text_to_textnodes
 from extract_markdown import extract_title
 from block_type import *
 import re
 from htmlnode import *
+
+
+basepath = sys.argv[0]
+
+if sys.argv[0] == '':
+    basepath = "/"
 
 uno_list_trouble = '- [Why Glorfindel is More Impressive than Legolas](/blog/glorfindel)\n- [Why Tom Bombadil Was a Mistake](/blog/tom)\n- [The Unparalleled Majesty of "The Lord of the Rings"](/blog/majesty)'
 
@@ -214,6 +221,7 @@ def generate_page(from_path, template_path, dest_path):
 
 def generate_pages_recursive(dir_path, template_path, dest_dir_path):
     print (f'Generating page from {dir_path} at {dest_dir_path} with {template_path}')
+
     if os.path.isfile(template_path): 
         template_file = open(template_path)
         template = template_file.read()
@@ -243,6 +251,8 @@ def generate_pages_recursive(dir_path, template_path, dest_dir_path):
             MD_title = extract_title(markdown)
             replace_template = template.replace("{{ Title }}", MD_title)
             replace_template = replace_template.replace("{{ Content }}", MD_as_HTML)
+            replace_template = replace_template.replace('href="/', f'href="{basepath}') #### Added for public page generation
+            replace_template = replace_template.replace('src="/', f'src="{basepath}')  #### Added for public page generation
             dest_path_list = dest_path.split("/")
             file_path = dest_path_list[-1][0:-3]   #The end of start_path with .md removed: index
             dest_path_list = dest_path_list[0:-1] #start_path broken down into a list of each dir/sub dir, excluding file information
