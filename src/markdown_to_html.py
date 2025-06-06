@@ -173,8 +173,9 @@ def markdown_to_html_node(markdown_doc):
 
 #markdown_to_html_node(unoLT_image_check)
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, base_path):
     print(f'Generating page from {from_path} to {dest_path} using {template_path}')
+    basepath = base_path
     if os.path.isfile(from_path): #if from_path is a file...
         from_path_file = open(from_path, mode= 'r') #open the file
         markdown = from_path_file.read() #read the file, assign its contents to markdown variable
@@ -193,6 +194,8 @@ def generate_page(from_path, template_path, dest_path):
     rep_template= template.replace("{{ Title }}", MD_title )
    
     rep_template = rep_template.replace("{{ Content }}", MD_as_HTML)
+    rep_template = rep_template.replace('href="/', f'href="{basepath}') #### Added for public page generation
+    rep_template = rep_template.replace('src="/', f'src="{basepath}')
     #print(rep_template)
     dest_path_sections = dest_path.split("/") #current implementation supports one directory in path
     new_path = ""
