@@ -1,13 +1,130 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>No header detected! Example: # header1</title>
-    <link href="src/main.pyindex.css" rel="stylesheet" />
-  </head>
+body {
+  background-color: #1f1c25;
+  color: #f0e6d1;
+  font-family: "Luminari", "Georgia", serif;
+  line-height: 1.7;
+  margin: 0;
+  padding: 20px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
-  <body>
-    <article><div><p>body {   background-color: #1f1c25;   color: #f0e6d1;   font-family: "Luminari", "Georgia", serif;   line-height: 1.7;   margin: 0;   padding: 20px;   max-width: 800px;   margin-left: auto;   margin-right: auto; }</p><p>b {   font-weight: 900; }</p><p>h1, h2, h3, h4, h5, h6 {   color: #dda15e;   margin-top: 24px;   margin-bottom: 16px;   text-shadow: 2px 2px 4px #000; }</p><p>h1 {   font-size: 2.5em; }</p><p>h2 {   font-size: 2em; }</p><p>h3 {   font-size: 1.5em; }</p><p>h4, h5, h6 {   font-size: 1.2em; }</p><p>a {   color: #e0a96d;   text-decoration: none;   border-bottom: 2px solid #e0a96d; }</p><p>a:hover {   color: #f4a261;   border-color: #f4a261; }</p><p>ul, ol {   padding-left: 30px; }</p><p>code {   background-color: #3c3c42;   border-radius: 6px;   color: #e9c46a;   padding: 0.4em 0.6em;   font-family: "Courier New", monospace; }</p><p>pre code {   padding: 0; }</p><p>pre {   background-color: #3c3c42;   border-radius: 6px;   padding: 1em;   overflow: auto;   box-shadow: 2px 2px 6px #000; }</p><p>blockquote {   background-color: #2e2c35;   border-left: 4px solid #8d99ae;   padding-left: 2em;   margin-left: 0;   padding-top: 0.5em;   padding-bottom: 0.5em;   padding-right: 0.5em;   color: #ddd;   font-style: italic; }</p><p>img {   max-width: 100%;   height: auto;   border-radius: 6px;   border: 3px solid #3c3c42;   box-shadow: 3px 3px 6px #000; }</p><p>::-webkit-scrollbar {   width: 12px;   height: 12px; }</p><p>::-webkit-scrollbar-track {   background: #1f1c25;   border-radius: 6px; }</p><p>::-webkit-scrollbar-thumb {   background-color: #3c3c42;   border-radius: 6px;   border: 3px solid #1f1c25; }</p><p>::-webkit-scrollbar-thumb:hover {   background-color: #5a5466; }</p><p>* {   scrollbar-width: thin;   scrollbar-color: #3c3c42 #1f1c25; }</p><p>::-webkit-scrollbar-corner {   background: #1f1c25; }</p></div></article>
-  </body>
-</html>
+b {
+  font-weight: 900;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #dda15e;
+  margin-top: 24px;
+  margin-bottom: 16px;
+  text-shadow: 2px 2px 4px #000;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4,
+h5,
+h6 {
+  font-size: 1.2em;
+}
+
+a {
+  color: #e0a96d;
+  text-decoration: none;
+  border-bottom: 2px solid #e0a96d;
+}
+
+a:hover {
+  color: #f4a261;
+  border-color: #f4a261;
+}
+
+ul,
+ol {
+  padding-left: 30px;
+}
+
+code {
+  background-color: #3c3c42;
+  border-radius: 6px;
+  color: #e9c46a;
+  padding: 0.4em 0.6em;
+  font-family: "Courier New", monospace;
+}
+
+pre code {
+  padding: 0;
+}
+
+pre {
+  background-color: #3c3c42;
+  border-radius: 6px;
+  padding: 1em;
+  overflow: auto;
+  box-shadow: 2px 2px 6px #000;
+}
+
+blockquote {
+  background-color: #2e2c35;
+  border-left: 4px solid #8d99ae;
+  padding-left: 2em;
+  margin-left: 0;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-right: 0.5em;
+  color: #ddd;
+  font-style: italic;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  border: 3px solid #3c3c42;
+  box-shadow: 3px 3px 6px #000;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1f1c25;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #3c3c42;
+  border-radius: 6px;
+  border: 3px solid #1f1c25;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #5a5466;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #3c3c42 #1f1c25;
+}
+
+::-webkit-scrollbar-corner {
+  background: #1f1c25;
+}

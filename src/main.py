@@ -7,13 +7,13 @@ from markdown_to_html import generate_pages_recursive, generate_page
 
 
 def main():
-    #if sys.argv[0] == '':
-        #establish_basepath = '/'
-    #else: 
-    establish_basepath = sys.argv[0]
+    #print(sys.argv)
+    if sys.argv == [] or len(sys.argv) == 1:
+        establish_basepath = '/'
+    else: 
+        establish_basepath = sys.argv[1]
 
     static_to_public("static", "docs")
-    generate_page("static/index.css", "template.html", "docs/index.css", establish_basepath)
     generate_pages_recursive("content", "template.html", "docs", establish_basepath)
     
     #generate_page("content/index.md", "template.html", "public/index.html")
