@@ -11,8 +11,8 @@ from htmlnode import *
 
 basepath = sys.argv[0]
 
-if sys.argv[0] == '':
-    basepath = "/"
+#if sys.argv[0] == '':
+    #basepath = "/"
 
 uno_list_trouble = '- [Why Glorfindel is More Impressive than Legolas](/blog/glorfindel)\n- [Why Tom Bombadil Was a Mistake](/blog/tom)\n- [The Unparalleled Majesty of "The Lord of the Rings"](/blog/majesty)'
 
