@@ -1,1 +1,1 @@
-python3 src/main.py "/Fladiem/static_site_generator/"
+python3 src/main.py "/https://github.com/Fladiem/static_site_generator/"
