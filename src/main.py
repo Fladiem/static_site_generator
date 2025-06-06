@@ -4,10 +4,16 @@ from htmlnode import *
 from static_to_public import *
 from markdown_to_html import generate_pages_recursive
 
+
+
 def main():
+    if sys.argv[0] == '':
+        establish_basepath = '/'
+    else: 
+        establish_basepath = sys.argv[0]
 
     static_to_public("static", "docs")
-    generate_pages_recursive("content", "template.html", "docs")
+    generate_pages_recursive("content", "template.html", "docs", establish_basepath)
     
     #generate_page("content/index.md", "template.html", "public/index.html")
     #generate_page("content/blog/glorfindel/index.md", "template.html", "public/blog/glorfindel/index.html")

@@ -8,9 +8,6 @@ from block_type import *
 import re
 from htmlnode import *
 
-
-basepath = sys.argv[0]
-
 #if sys.argv[0] == '':
     #basepath = "/"
 
@@ -219,9 +216,9 @@ def generate_page(from_path, template_path, dest_path):
         HTML_page.close()
     return
 
-def generate_pages_recursive(dir_path, template_path, dest_dir_path):
+def generate_pages_recursive(dir_path, template_path, dest_dir_path, base_path):
     print (f'Generating page from {dir_path} at {dest_dir_path} with {template_path}')
-
+    basepath = base_path
     if os.path.isfile(template_path): 
         template_file = open(template_path)
         template = template_file.read()
@@ -270,7 +267,7 @@ def generate_pages_recursive(dir_path, template_path, dest_dir_path):
             start_item = start_path
             dest_item = dest_path
             #print (start_item, "-->", dest_item)
-            generate_pages_recursive(start_item, 'template.html', dest_item)
+            generate_pages_recursive(start_item, 'template.html', dest_item, basepath)
 
     return
         
