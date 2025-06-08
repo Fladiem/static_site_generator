@@ -192,10 +192,11 @@ def generate_page(from_path, template_path, dest_path, base_path):
     MD_title = extract_title(markdown) #perhaps edit to grab info from HTML instead?
     #print(MD_title)
     rep_template= template.replace("{{ Title }}", MD_title )
-   
     rep_template = rep_template.replace("{{ Content }}", MD_as_HTML)
-    rep_template = rep_template.replace('href="/', f'href="{basepath}') #### Added for public page generation
-    rep_template = rep_template.replace('src="/', f'src="{basepath}')
+    
+    if basepath != '/':
+        rep_template = rep_template.replace('href="/', f'href="{basepath}') #### Added for public page generation
+        rep_template = rep_template.replace('src="/', f'src="{basepath}')
     #print(rep_template)
     dest_path_sections = dest_path.split("/") #current implementation supports one directory in path
     new_path = ""
@@ -227,8 +228,12 @@ def generate_pages_recursive(dir_path, template_path, dest_dir_path, base_path):
         template = template_file.read()
         template_file.close()
         #print(template)
-        
-    start_paths = os.listdir(dir_path)
+    start_paths = []
+    check_paths = os.listdir(dir_path)
+    for check in check_paths:
+        if "." not in check[0:] or (check[-3] + check[-2] + check[-1]) == ".md":
+            start_paths.append(check) #Stops the madness, but not the monday scaries
+    
     for start_path in start_paths:
         truestart = start_path
         start_path = os.path.join(dir_path, start_path)
@@ -251,8 +256,10 @@ def generate_pages_recursive(dir_path, template_path, dest_dir_path, base_path):
             MD_title = extract_title(markdown)
             replace_template = template.replace("{{ Title }}", MD_title)
             replace_template = replace_template.replace("{{ Content }}", MD_as_HTML)
-            replace_template = replace_template.replace('href="/', f'href="{basepath}') #### Added for public page generation
-            replace_template = replace_template.replace('src="/', f'src="{basepath}')  #### Added for public page generation
+            if basepath != '/':
+                replace_template = replace_template.replace('href="/', f'href="{basepath}') #### Added for public page generation
+                replace_template = replace_template.replace('src="/', f'src="{basepath}')  #### Added for public page generation
+            
             dest_path_list = dest_path.split("/")
             file_path = dest_path_list[-1][0:-3]   #The end of start_path with .md removed: index
             dest_path_list = dest_path_list[0:-1] #start_path broken down into a list of each dir/sub dir, excluding file information
@@ -275,4 +282,4 @@ def generate_pages_recursive(dir_path, template_path, dest_dir_path, base_path):
     return
         
 #generate_page("content/index.md", "template.html", "public/index.html")
-#generate_pages_recursive("content", "template.html", "public")
+#generate_pages_recursive("content", "template.html", "docs", "/" )

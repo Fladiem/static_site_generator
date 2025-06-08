@@ -11,7 +11,10 @@ def main():
     if sys.argv == [] or len(sys.argv) == 1:
         establish_basepath = '/'
     else: 
-        establish_basepath = sys.argv[1]
+        establish_basepath = sys.argv[1] ####Perhaps move this logic into generate_pages_R
+        ####To allow previous local generation when sys.argv != len 1
+        #### running locally without build.sh currently ruins the .html files
+        #####Main.sh must be changed to doc, from public  
 
     static_to_public("static", "docs")
     generate_pages_recursive("content", "template.html", "docs", establish_basepath)
